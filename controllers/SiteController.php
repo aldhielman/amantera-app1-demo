@@ -60,6 +60,7 @@ class SiteController extends Controller
             'auth' => [
                 'class' => 'yii\authclient\AuthAction',
                 'successCallback' => [$this, 'onAuthSuccess'],
+                'cancelCallback' => [$this, 'onAuthCancel'],
             ],
         ];
     }
@@ -73,6 +74,11 @@ class SiteController extends Controller
     public function onAuthSuccess($client)
     {
         (new AuthHandler($client))->handle();
+    }
+
+    public function onAuthCancel($client)
+    {
+        return 'gak jadi';
     }
 
     /**
@@ -154,10 +160,10 @@ class SiteController extends Controller
         $response = $client->createRequest()
             ->setMethod('POST')
             ->addHeaders(['content-type' => 'application/x-www-form-urlencoded'])
-            ->setUrl('http://localhost:8080/auth/realms/amantera/protocol/openid-connect/logout')
+            ->setUrl('http://172.16.16.80:8080/auth/realms/amantera/protocol/openid-connect/logout')
             ->setData([
                 'client_id' => 'app1',
-                'client_secret' => 'nmGbHVrIc6l3Evn7kmX5ZeNLkHU2kaax',
+                'client_secret' => '1db25277-4895-4afd-9ba9-8a3b574a26b3',
                 'refresh_token' => $client->accessToken->getParam('refresh_token')
             ])
             ->send();

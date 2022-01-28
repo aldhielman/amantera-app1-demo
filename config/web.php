@@ -55,11 +55,12 @@ $config = [
             'clients' => [
                 'keycloak' => [
                     'class' => 'yii\authclient\OpenIdConnect',
-                    'issuerUrl' => 'https://localhost:8443/auth/realms/amantera',
+                    'issuerUrl' => 'http://172.16.16.80:8080/auth/realms/amantera',
                     'clientId' => 'app1',
-                    'clientSecret' => 'nmGbHVrIc6l3Evn7kmX5ZeNLkHU2kaax',
+                    'clientSecret' => '1db25277-4895-4afd-9ba9-8a3b574a26b3',
                     'name' => 'keycloak',
                     'title' => 'Keycloak OpenID Connect',
+                    'validateJws' => false
                 ],
             ],
         ]
