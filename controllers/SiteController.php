@@ -120,7 +120,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        $this->prelogout();
+        $this->_prelogout();
         Yii::$app->user->logout();
 
         return $this->goHome();
@@ -154,16 +154,17 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    protected function prelogout()
+    private function _prelogout()
     {
         $client = Yii::$app->authClientCollection->getClient('keycloak');
-        $response = $client->createRequest()
+
+        $client->createRequest()
             ->setMethod('POST')
             ->addHeaders(['content-type' => 'application/x-www-form-urlencoded'])
-            ->setUrl('http://172.16.16.80:8080/auth/realms/amantera/protocol/openid-connect/logout')
+            ->setUrl(Yii::$app->params['keycloak.logoutUrl'])
             ->setData([
-                'client_id' => 'app1',
-                'client_secret' => '1db25277-4895-4afd-9ba9-8a3b574a26b3',
+                'client_id' => Yii::$app->params['keycloak.clientId'],
+                'client_secret' => Yii::$app->params['keycloak.clientSecret'],
                 'refresh_token' => $client->accessToken->getParam('refresh_token')
             ])
             ->send();
